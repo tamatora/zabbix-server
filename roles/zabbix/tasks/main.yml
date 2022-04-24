@@ -1,0 +1,48 @@
+---
+- name: check file zabbix.sql
+  stat:
+    path: /usr/share/doc/zabbix-server-pgsql*/create.sql.gz
+  register: zabbix_sql
+
+- name: install zabbix server
+  yum:
+    name: "{{ packages }}"
+    state: present
+  vars:
+    packages:
+    - zabbix-server-pgsql
+    - zabbix-web-pgsql
+    - zabbix-web-japanese
+
+- name: import initial schema
+  shell: zcat /usr/share/doc/zabbix-server-pgsql*/create.sql.gz | sudo -u zabbix psql zabbix
+  when: not zabbix_sql.stat.exists
+
+- name: set zabbix_server.conf
+  template:
+    src: zabbix_server.conf.j2
+    dest: /etc/zabbix/zabbix_server.conf
+    owner: root
+    group: zabbix
+    mode: 0640
+    backup: yes
+
+- name: set php_zabbix.conf
+  template:
+    src: php_zabbix.conf.j2
+    dest: /etc/httpd/conf.d/zabbix.conf
+    owner: root
+    group: root
+    mode: 0644
+    backup: yes
+
+- name: start service zabbix-server
+  service:
+    name: zabbix-server
+    enabled: yes
+    state: restarted
+
+- name: restart service apache
+  service:
+    name: httpd
+    state: restarted

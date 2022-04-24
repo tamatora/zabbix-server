@@ -1,0 +1,13 @@
+---
+- name: vim install
+  yum:
+    name: vim-enhanced
+    state: latest
+
+- name: set vimrc
+  template:
+    src: vimrc.j2
+    dest: "{{ vimrc_path }}"
+    owner: "{{ setup_user }}"
+    group: "{{ setup_user }}"
+    mode: 0644

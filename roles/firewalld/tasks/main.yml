@@ -1,0 +1,73 @@
+---
+- name: start service firewalld
+  service:
+    name: firewalld
+    enabled: yes
+    state: started
+
+- name: disabled dhcpv6-client
+  firewalld:
+    zone: public
+    service: dhcpv6-client
+    state: disabled
+    permanent: yes
+    immediate: yes
+
+- name: set ssh permit
+  firewalld:
+    zone: public
+    rich_rule: 'rule family=ipv4 source address="{{ item }}" service name="ssh" accept'
+    state: enabled
+    permanent: yes                                                                                  
+    immediate: yes
+  with_items: "{{ ssh_ip }}"
+
+- name: enable http/https
+  firewalld:
+    zone: public
+    service: "{{ item }}"
+    state: enabled
+    permanent: yes
+    immediate: yes
+  with_items:
+    - http
+    - https
+  when: "'server' in group_names"
+
+- name: set http permit
+  firewalld:
+    zone: public
+    rich_rule: 'rule family=ipv4 source address="{{ item }}" service name="http" accept'
+    state: enabled
+    permanent: yes                                                                                  
+    immediate: yes
+  with_items: "{{ ssh_ip }}"
+  when: "'server' in group_names"
+
+- name: set https permit
+  firewalld:
+    zone: public
+    rich_rule: 'rule family=ipv4 source address="{{ item }}" service name="https" accept'
+    state: enabled
+    permanent: yes                                                                                  
+    immediate: yes
+  with_items: "{{ ssh_ip }}"
+  when: "'server' in group_names"
+
+- name: zabbix-agent port permit
+  firewalld:
+    zone: public
+    port: 10050/tcp
+    state: enabled
+    permanent: yes
+    immediate: yes
+  when: "'agent' in group_names"
+
+- name: zabbix-server port permit
+  firewalld:
+    zone: public
+    port: 10051/tcp
+    state: enabled
+    permanent: yes
+    immediate: yes
+  when: "'server' in group_names"

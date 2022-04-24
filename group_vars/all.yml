@@ -1,0 +1,16 @@
+# 設定用ユーザ情報
+setup_user: setupuser
+
+# vim用変数
+vimrc_path: /home/setupuser/.vimrc
+
+# postgresql用変数
+pg_hba_path: /var/lib/pgsql/12/data/pg_hba.conf
+
+# zabbix用変数
+zabbix_dbname: zabbix
+zabbix_dbuser: zabbix
+zabbix_dbpass: zabbix
+
+# chrony用変数
+chrony_ip: 192.168.240.53

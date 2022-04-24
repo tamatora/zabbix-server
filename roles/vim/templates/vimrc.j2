@@ -1,0 +1,67 @@
+"キーマップ設定----------------------------------------------------------------------
+" Escの2回押しでハイライト消去
+nnoremap <ESC><ESC> :nohlsearch<CR><ESC>
+" 日付入力
+inoremap <F2> a<C-R>=strftime("%Y/%m/%d (%a)")<CR>
+inoremap <F3> a<C-R>=strftime("%H:%M:%S")<CR>
+
+"インデント設定 ---------------------------------------------------------------
+" 新しい行のインデントを現在行と同じにする
+"set autoindent
+" 新しい行を作ったときに高度な自動インデントを行う
+"set smartindent
+
+"タブ設定 ---------------------------------------------------------------------
+" タブの代わりに空白文字を挿入する
+set expandtab
+" ファイル内の <Tab> が対応する空白の数
+set tabstop=4
+" シフト移動幅
+set shiftwidth=4
+"キーボードでのタブ文字数
+set softtabstop=4 
+" 行頭の余白内で Tab を打ち込むと、'shiftwidth' の数だけインデントする。
+set smarttab
+
+"行設定 -----------------------------------------------------------------------
+"行を折り返さない
+set nowrap
+"set guioptions+=b
+" 行数を表示
+set number
+" 閉じ括弧が入力されたとき、対応する括弧を表示する
+set showmatch
+
+"検索設定 ---------------------------------------------------------------------
+" インクリメンタルサーチを行う
+set incsearch
+"検索結果をハイライトする
+set hlsearch
+"検索時に文字の大小を区別しない
+set ignorecase
+" 検索時に大文字を含んでいたら大/小を区別
+set smartcase
+" 検索をファイルの先頭へループしない
+"set nowrapscan
+"検索をファイルの先頭へループする
+set wrapscan
+
+"その他 -----------------------------------------------------------------------
+" タブ文字、行末など不可視文字を表示する
+set list
+set listchars=tab:^\ 
+
+" カーソル行をハイライト
+set cursorline
+" アンダーラインを引く(color terminal)
+highlight CursorLine cterm=underline ctermfg=NONE ctermbg=NONE
+" カーソル列にハイライト
+"set cursorcolumn
+" アンダーラインを引く(color terminal)
+"highlight Cursorcolumn cterm=bold ctermfg=NONE ctermbg=NONE
+
+" n行目に色を付ける
+set colorcolumn=100
+
+" ステータス行の表示情報の指定 後で見直す・・・。
+"set statusline=%<%f\ %m%r%h%w%{'['.(&fenc!=''?&fenc:&enc).']['.&ff.']'}%=%l,%c%V%8P

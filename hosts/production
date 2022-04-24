@@ -1,0 +1,9 @@
+[server]
+ETS240dev003P
+
+[agent]
+ETS240dev003P
+
+[production:children]
+server
+agent

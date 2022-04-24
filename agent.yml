@@ -1,0 +1,6 @@
+---
+- hosts: agent
+  become: true
+  roles:
+    - zabbix-agent
+    - firewalld

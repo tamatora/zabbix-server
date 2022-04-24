@@ -1,0 +1,3 @@
+# zabbix用変数
+zabbix_ip: 172.18.100.20
+zabbix_host: test-server

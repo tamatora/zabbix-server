@@ -1,0 +1,11 @@
+---
+- hosts: server
+  become: true
+  roles:
+    - selinux
+    - chrony
+    - vim
+    - apache
+    - postgresql
+    - zabbix
+    - firewalld

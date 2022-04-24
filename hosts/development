@@ -1,0 +1,9 @@
+[server]
+test-server
+
+[agent]
+test-server
+
+[development:children]
+server
+agent

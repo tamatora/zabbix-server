@@ -1,0 +1,47 @@
+---
+- name: install postgresql
+  yum:
+    name: "{{ packages }}"
+    state: present
+  vars:
+    packages:
+    - postgresql12-server
+    - python-psycopg2
+
+- name: postgresql initdb
+  shell: /usr/pgsql-12/bin/postgresql-12-setup initdb
+  ignore_errors: yes
+
+- name: start service postgresql
+  service:
+    name: postgresql-12
+    enabled: yes
+    state: started
+
+- name: create database
+  postgresql_db:
+    name: "{{ zabbix_dbname }}"
+    encoding: "UTF-8"
+    login_user: postgres
+  become_user: postgres
+
+- name: create user
+  postgresql_user:
+    db: "{{ zabbix_dbname }}"
+    name: "{{ zabbix_dbuser }}"
+    password: "{{ zabbix_dbpass }}"
+    priv: ALL
+    state: present
+    login_user: postgres
+  become_user: postgres
+
+- name: set pg_hba.conf
+  template:
+    src: pg_hba.conf.j2
+    dest: "{{ pg_hba_path }}"
+    owner: postgres
+    group: postgres
+    mode: 0600
+    backup: yes
+  notify:
+    - restart postgresql

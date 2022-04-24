@@ -1,0 +1,11 @@
+Host test-server
+  HostName 172.18.100.20
+  User setupuser
+
+Host ETS240dev002P
+  HostName 192.168.240.55
+  User setupuser
+
+Host ETS240dev003P
+  HostName 192.168.240.56
+  User setupuser
